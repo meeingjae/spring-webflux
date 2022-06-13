@@ -1,0 +1,10 @@
+### findById
+GET /person/1
+HOST: localhost:8080
+Accept: application/json
+
+
+### find All
+GET /person
+HOST: localhost:8080
+Accept: application/json
