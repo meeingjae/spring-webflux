@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.springwebflux.person.repository.PersonRepository;
+import com.springwebflux.person.service.PersonService;
 import com.springwebflux.person.vo.Person;
 
 import reactor.core.publisher.Flux;
@@ -15,20 +15,20 @@ import reactor.core.publisher.Mono;
 @RequestMapping(value = "/person")
 public class PersonController {
 
-    private final PersonRepository personRepository;
+    private final PersonService personService;
 
-    public PersonController(PersonRepository personRepository) {
-        this.personRepository = personRepository;
+    public PersonController(PersonService personService) {
+        this.personService = personService;
     }
 
     @GetMapping(value = "/{id}")
     public Mono<Person> findById(
             @PathVariable(value = "id") long id) {
-        return personRepository.findById(id);
+        return personService.findById(id);
     }
 
     @GetMapping
     public Flux<Person> findAll() {
-        return personRepository.findAll();
+        return personService.findAll();
     }
 }
