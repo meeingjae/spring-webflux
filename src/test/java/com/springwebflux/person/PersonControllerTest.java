@@ -8,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.springwebflux.person.controller.PersonController;
-import com.springwebflux.person.repository.PersonRepository;
 import com.springwebflux.person.vo.Person;
 
 import reactor.core.publisher.Mono;
@@ -19,9 +18,6 @@ class PersonControllerTest {
     @Autowired
     PersonController personController;
 
-    @Autowired
-    PersonRepository personRepository;
-
     final WebClient client = WebClient.create("http://localhost:8080");
 
     @Test
@@ -31,7 +27,7 @@ class PersonControllerTest {
                                         .retrieve()
                                         .bodyToMono(Person.class);
 
-        personMono.subscribe(System.out::println);
+        personMono.subscribe(Person::getName);
         assertThat(personMono.block().getId())
                 .isEqualTo(1);
     }
