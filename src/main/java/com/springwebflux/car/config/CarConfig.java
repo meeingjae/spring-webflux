@@ -28,4 +28,11 @@ public class CarConfig {
                         getCarRepository().getById(Long.parseLong(req.pathVariable("id"))),
                         Car.class));
     }
+
+    @Bean
+    RouterFunction<ServerResponse> getAllCar() {
+        return RouterFunctions.route(
+                RequestPredicates.GET("/car"),
+                req -> ok().body(getCarRepository().getAll(), Car.class));
+    }
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.springwebflux.car.vo.Car;
 
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Repository
@@ -23,5 +24,9 @@ public class CarRepository {
 
     public Mono<Car> getById(long id) {
         return Mono.just(carMap.get(id) != null ? carMap.get(id) : new Car());
+    }
+
+    public Flux<Car> getAll() {
+        return Flux.fromIterable(carMap.values());
     }
 }
