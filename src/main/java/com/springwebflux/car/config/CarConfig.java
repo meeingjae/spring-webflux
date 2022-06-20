@@ -1,5 +1,6 @@
 package com.springwebflux.car.config;
 
+import static org.springframework.web.reactive.function.BodyExtractors.toMono;
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
 import org.springframework.context.annotation.Bean;
@@ -24,8 +25,8 @@ public class CarConfig {
     RouterFunction<ServerResponse> getCarByIdRoute() {
         return RouterFunctions.route(
                 RequestPredicates.GET("/car/{id}"),
-                req -> ok().body(
-                        getCarRepository().getById(Long.parseLong(req.pathVariable("id"))),
+                request -> ok().body(
+                        getCarRepository().getById(Long.parseLong(request.pathVariable("id"))),
                         Car.class));
     }
 
@@ -33,6 +34,16 @@ public class CarConfig {
     RouterFunction<ServerResponse> getAllCar() {
         return RouterFunctions.route(
                 RequestPredicates.GET("/car"),
-                req -> ok().body(getCarRepository().getAll(), Car.class));
+                request -> ok().body(getCarRepository().getAll(), Car.class));
+    }
+
+    @Bean
+    RouterFunction<ServerResponse> updateCar() {
+        return RouterFunctions.route(
+                RequestPredicates.PUT("/car"),
+                request -> request
+                        .body(toMono(Car.class))
+                        .doOnNext(getCarRepository()::updateCar)
+                        .then(ok().build()));
     }
 }

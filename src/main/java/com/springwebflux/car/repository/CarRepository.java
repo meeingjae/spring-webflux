@@ -2,6 +2,7 @@ package com.springwebflux.car.repository;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import org.springframework.stereotype.Repository;
 
@@ -28,5 +29,11 @@ public class CarRepository {
 
     public Flux<Car> getAll() {
         return Flux.fromIterable(carMap.values());
+    }
+
+    public Mono<Car> updateCar(Car car) {
+        return Mono.justOrEmpty(carMap.get(car.getId()))
+                .filter(Objects::nonNull)
+                .map(it -> carMap.put(car.getId(),car)); //nullable
     }
 }
