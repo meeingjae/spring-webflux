@@ -36,4 +36,8 @@ public class CarRepository {
                 .filter(Objects::nonNull)
                 .map(it -> carMap.put(car.getId(),car)); //nullable
     }
+
+    public Mono<Long> deleteById(long id) {
+        return Mono.just(carMap.remove(id).getId());
+    }
 }
