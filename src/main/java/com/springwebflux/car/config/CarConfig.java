@@ -46,4 +46,13 @@ public class CarConfig {
                         .doOnNext(getCarRepository()::updateCar)
                         .then(ok().build()));
     }
+
+    @Bean
+    RouterFunction<ServerResponse> deleteCar() {
+        return RouterFunctions.route(
+                RequestPredicates.DELETE("/car/{id}"),
+                request -> ok()
+                        .body(getCarRepository().deleteById(Integer.parseInt(request.pathVariable("id"))),
+                              Integer.class));
+    }
 }
